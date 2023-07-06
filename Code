@@ -1,0 +1,22 @@
+class Solution: #beats 54.6% runtime, 81.67% Memory
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        leftPtr=0
+        rightPtr=1
+        currSum = nums[0]
+        best = float('inf')
+        n = len(nums)
+        if n == 1:
+            return int(nums[0] >= target)
+        while not (rightPtr == n and currSum < target) and leftPtr != n:
+            if currSum < target:
+                currSum += nums[rightPtr]
+                rightPtr += 1
+            else:
+                best = min(best, rightPtr-leftPtr)
+
+                currSum -= nums[leftPtr]
+                leftPtr += 1
+                rightPtr = max(rightPtr, leftPtr+1)
+        if best == float('inf'):
+            return 0
+        return best
